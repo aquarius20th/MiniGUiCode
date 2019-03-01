@@ -1,0 +1,6 @@
+main
+*.o
+*cscope.*
+*.json
+.ccls-*
+.ycm_extra_conf.*
