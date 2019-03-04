@@ -55,7 +55,7 @@ int MiniGUIMain(int argc, char const *argv[])
     CreateInfo.spCaption = "helloworld";
 
     CreateInfo.hMenu = 0;
-    CreateInfo.hCursor = GetSystemCursor (0);
+    CreateInfo.hCursor = GetSystemCursor (2);
     CreateInfo.hIcon = 0;
     CreateInfo.MainWindowProc = HelloWinProc;
     CreateInfo.lx = 0;
