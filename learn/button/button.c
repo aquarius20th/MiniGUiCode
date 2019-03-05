@@ -20,7 +20,6 @@
 #include <minigui/window.h>
 #include <minigui/control.h>
 
-static PLOGFONT gb2312_font;
 
 #define  IDC_BUTTON              102               /* IDC_BUTTON */
 
@@ -30,11 +29,10 @@ static long HelloWinProc (HWND hWnd, unsigned int message, WPARAM wParam, LPARAM
     switch (message) {
         case MSG_PAINT:
             hdc = BeginPaint (hWnd);
-            TextOut (hdc, 0, 0, "你好");
+            TextOut (hdc, 0, 0, "hello");
             EndPaint (hWnd, hdc);
             return 0;
         case MSG_CLOSE:
-            DestroyLogFont(gb2312_font);
             DestroyMainWindow (hWnd);
             PostQuitMessage (hWnd);
             return 0;
@@ -89,8 +87,8 @@ static HWND InitMainWindow( void )
 static int InitMainWindowButton( HWND hMainWnd )
 {
     CreateWindow (CTRL_BUTTON,
-                  "系统图",
-                  WS_CHILD | BS_PUSHBUTTON | BS_CHECKED | WS_VISIBLE,
+                  "button",
+                  WS_CHILD | BS_PUSHBUTTON | BS_FLAT | BS_LEFTTEXT | WS_VISIBLE,
                   IDC_BUTTON,
                   30, 50, 120, 120, hMainWnd, 0);
 
