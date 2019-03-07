@@ -17,9 +17,9 @@
 
 #include <minigui/common.h>
 #include <minigui/minigui.h>
-#include <minigui/control.h>
-#include <minigui/window.h>
 #include <minigui/gdi.h>
+#include <minigui/window.h>
+#include <minigui/control.h>
 
 /* 定义背景图片 */
 static BITMAP bmp_bkgnd;
