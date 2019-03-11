@@ -147,7 +147,7 @@ int MiniGUIMain(int argc, const char *argv[])
     int rtn;
 
     /* 加载图片 */
-    if (LoadBitmapFromFile(HDC_SCREEN, &bmp_bkgnd, "res/bkgnd.jpg")) {
+    if (LoadBitmapFromFile(HDC_SCREEN, &mp_bkgnd, "res/bkgnd.jpg")) {
         return 1;
     }
 
