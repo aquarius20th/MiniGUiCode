@@ -35,12 +35,12 @@ static CTRLDATA CtrlInputLen[] = {
     { CTRL_STATIC, WS_VISIBLE | SS_SIMPLE, 400, 10, 220, 18, IDC_STATIC,
       "111111", 0, WS_EX_TRANSPARENT },
 
-    { CTRL_SLEDIT, WS_VISIBLE | WS_TABSTOP | WS_BORDER, 400, 40, 220, 24,
-      IDC_SIZE_MM, NULL, 0 },
+    { CTRL_SLEDIT, WS_VISIBLE | WS_BORDER, 400, 40, 220, 24, IDC_SIZE_MM, "0.01",
+      0 },
 
     { CTRL_STATIC, WS_VISIBLE | SS_SIMPLE, 400, 70, 220, 18, IDC_SIZE_INCH,
       "1111113", 0, WS_EX_TRANSPARENT },
-    { CTRL_BUTTON, WS_TABSTOP | WS_VISIBLE | BS_DEFPUSHBUTTON, 470, 110, 60, 25,
+    { CTRL_BUTTON, WS_VISIBLE | BS_PUSHBUTTON | BS_NOBORDER, 470, 110, 60, 25,
       IDOK, "OK", 0 }
 
 };
@@ -64,6 +64,13 @@ static void my_notif_proc(HWND hwnd, LINT id, int nc, DWORD add_data)
 static LRESULT InputLenDialogBoxProc(HWND hDlg, UINT message, WPARAM wParam,
                                      LPARAM lParam)
 {
+	static BOOL down = FALSE;
+	static MSG UPMsg;
+	if ( down && message == MSG_IDLE )
+	{
+		SendMessage(hDlg, MSG_LBUTTONUP, UPMsg.wParam, UPMsg.lParam );
+		down=FALSE;
+	}
     switch (message) {
     case MSG_INITDIALOG:
         SetWindowAdditionalData(hDlg, lParam);
@@ -101,10 +108,24 @@ static LRESULT InputLenDialogBoxProc(HWND hDlg, UINT message, WPARAM wParam,
         EndDialog(hDlg, IDCANCEL);
         break;
 
-    case MSG_COMMAND:
-        switch (wParam) {
-        case IDOK: {
-            char buff[40];
+    case MSG_LBUTTONDOWN: {
+		int i;
+		down=TRUE;
+		UPMsg.hwnd=hDlg;
+		UPMsg.lParam=lParam;
+		UPMsg.message=MSG_LBUTTONUP;
+		UPMsg.wParam=wParam;
+    } break;
+
+	case MSG_LBUTTONUP: {
+        printf("MSG_LBUTTONUP\n");
+	} break;
+
+	case MSG_COMMAND:
+		switch (wParam) {
+		case IDOK: {
+			printf("IDOK\n");
+			char buff[40];
             double *length = (double *)GetWindowAdditionalData(hDlg);
             GetWindowText(GetDlgItem(hDlg, IDC_SIZE_MM), buff, 32);
             *length = atof(buff);
@@ -133,7 +154,7 @@ int MiniGUIMain(int argc, const char *argv[])
     /* 控制窗口 */
     DlgBoxInputLen.controls = CtrlInputLen;
     rtn = DialogBoxIndirectParam(&DlgBoxInputLen, HWND_DESKTOP,
-                                 InputLenDialogBoxProc, (LPARAM)length);
+                                 InputLenDialogBoxProc, (LPARAM)&length);
     if (IDOK == rtn) {
         printf("The length is %.5f mm.\n", length);
     }
