@@ -2,17 +2,11 @@
  *   \file switchgui.c
  *   \brief 一个界面切换的程序
  *
- *
+ *   主界面的实现
  *
  */
 
-#include <stdio.h>
-
-#include <minigui/common.h>
-#include <minigui/minigui.h>
-#include <minigui/gdi.h>
-#include <minigui/window.h>
-#include <minigui/control.h>
+#include "infogui.h"
 
 #define MAINWND_WIDTH 800
 #define MAINWND_HEIGHT 480
@@ -144,6 +138,7 @@ static void ShowControls(HWND hMainWnd, UINT idc_button)
     switch (idc_button) {
     case IDC_BUTTON_INFO: {
         ShowWindow(hMainWnd, SW_HIDE);
+		InitInfoGui( hMainWnd );
         break;
     }
     default:
@@ -164,7 +159,7 @@ static LRESULT MainWndProc(HWND hMainWnd, UINT message, WPARAM wParam,
         break;
     }
     case MSG_ERASEBKGND: {
-        /* BmpBKGND(hMainWnd); */
+        BmpBKGND(hMainWnd);
         return 0;
         break;
     }
@@ -182,15 +177,23 @@ static LRESULT MainWndProc(HWND hMainWnd, UINT message, WPARAM wParam,
         ShowControls(hMainWnd, wParam);
         break;
     }
+    case MSG_DESTROY: {
+		DestroyAllControls( hMainWnd );
+		hMainWnd = HWND_INVALID;
+        return 0;
+    }
     case MSG_CLOSE: {
         UnloadMainWndBmp();
-        break;
+		/* DestroyMainWindow(hMainWnd); */
+		/* MainWindowCleanup(hMainWnd); */
+		/* PostQuitMessage(hMainWnd); */
+		return 0;
     }
     default:
         break;
     }
 
-    return DefaultWindowProc(hMainWnd, message, wParam, lParam);
+    return DefaultDialogProc(hMainWnd, message, wParam, lParam);
 }
 
 static int InitMainWinCreate(void)
