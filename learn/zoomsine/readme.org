@@ -1,0 +1,10 @@
+#+TITLE: 画一个简单的正弦图
+#+STYLE: <link rel="stylesheet" type="text/css" href="" />
+#+OPTIONS: ^:nil
+#+AUTHOR: mengqp
+
+* Table of Contents                                         :TOC_4_org:noexport:
+- [[sinewave 源文件][sinewave 源文件]]
+
+* sinewave 源文件
+  在我的cc 库中，使用的话需要在Makefile指定相应正确的路径
