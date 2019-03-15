@@ -2,7 +2,7 @@
 CC = /opt/arm-2009q1/bin/arm-none-linux-gnueabi-gcc
 APP = zoomsine
 
-SRC = ../../../cc/src/sinewave/
+SRC = ../../../cc/sinewave/src/
 
 OBJS1 = $(APP).o
 OBJS2 = $(SRC)sinewave.o
