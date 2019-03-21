@@ -138,7 +138,7 @@ static void ShowControls(HWND hMainWnd, UINT idc_button)
     switch (idc_button) {
     case IDC_BUTTON_INFO: {
         ShowWindow(hMainWnd, SW_HIDE);
-		InitInfoGui( hMainWnd );
+        InitInfoGui(hMainWnd);
         break;
     }
     default:
@@ -156,10 +156,11 @@ static LRESULT MainWndProc(HWND hMainWnd, UINT message, WPARAM wParam,
         LoadMainWndBmp();
         BmpBKGND(hMainWnd);
         BmpControls(hMainWnd);
+
+        return 0;
         break;
     }
     case MSG_ERASEBKGND: {
-        BmpBKGND(hMainWnd);
         return 0;
         break;
     }
@@ -171,6 +172,7 @@ static LRESULT MainWndProc(HWND hMainWnd, UINT message, WPARAM wParam,
         /* } */
         /* EndPaint(hMainWnd, hdc); */
 
+        /* return 0; */
         break;
     }
     case MSG_COMMAND: {
@@ -178,16 +180,16 @@ static LRESULT MainWndProc(HWND hMainWnd, UINT message, WPARAM wParam,
         break;
     }
     case MSG_DESTROY: {
-		DestroyAllControls( hMainWnd );
-		hMainWnd = HWND_INVALID;
+        DestroyAllControls(hMainWnd);
+        hMainWnd = HWND_INVALID;
         return 0;
     }
     case MSG_CLOSE: {
         UnloadMainWndBmp();
-		/* DestroyMainWindow(hMainWnd); */
-		/* MainWindowCleanup(hMainWnd); */
-		/* PostQuitMessage(hMainWnd); */
-		return 0;
+        /* DestroyMainWindow(hMainWnd); */
+        /* MainWindowCleanup(hMainWnd); */
+        /* PostQuitMessage(hMainWnd); */
+        return 0;
     }
     default:
         break;
@@ -198,7 +200,7 @@ static LRESULT MainWndProc(HWND hMainWnd, UINT message, WPARAM wParam,
 
 static int InitMainWinCreate(void)
 {
-    DlgMainWnd.controls = MainWndControls;
+	DlgMainWnd.controls = MainWndControls;
     return DialogBoxIndirectParam(&DlgMainWnd, HWND_DESKTOP, MainWndProc, 0);
 }
 
@@ -206,5 +208,6 @@ static int InitMainWinCreate(void)
 int MiniGUIMain(int argc, const char *argv[])
 {
     InitMainWinCreate();
+
     return 0;
 }
